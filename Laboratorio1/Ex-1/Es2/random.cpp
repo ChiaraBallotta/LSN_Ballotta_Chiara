@@ -10,6 +10,7 @@ _/    _/  _/_/_/  _/_/_/_/ email: Davide.Galli@unimi.it
 
 #include <iostream>
 #include <fstream>
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <cstdlib>
 #include "random.h"
@@ -35,6 +36,28 @@ double Random :: Gauss(double mean, double sigma) {
    double t=Rannyu();
    double x=sqrt(-2.*log(1.-s))*cos(2.*M_PI*t);
    return mean + x * sigma;
+}
+
+double Random :: Exponential(double lambda) {
+   double y=Rannyu();
+   double x = 0;
+   if(lambda==0){
+      cerr << "Exponential distribution needs non-zero decay rate parameter (lambda)" << endl;
+   }else{
+      x=-1/lambda * log(1-y);
+   }
+   return x;
+}
+
+double Random :: Cauchy(double mean, double gamma) {
+   double y=Rannyu();
+   double x = 0;
+   if(gamma==0){
+      cerr << "Cauchy distribution needs non-zero width parameter (lambda)" << endl;
+   }else{
+      x= gamma *tan(M_PI*(y-0.5)) + mean;
+   }
+   return x;
 }
 
 double Random :: Rannyu(double min, double max){

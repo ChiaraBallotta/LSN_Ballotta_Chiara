@@ -10,6 +10,7 @@ _/    _/  _/_/_/  _/_/_/_/ email: Davide.Galli@unimi.it
 
 #include <iostream>
 #include <fstream>
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <cstdlib>
 #include "random.h"

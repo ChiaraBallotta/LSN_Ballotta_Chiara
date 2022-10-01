@@ -20,10 +20,13 @@ _/    _/  _/_/_/  _/_/_/_/ email: Davide.Galli@unimi.it
 
 using namespace std;
 
+//////////////////// ESERCITAZIONE NUMERO 1
+
 template <typename T> void Print(const char * ,vector<T> ,vector<T>,vector<T>);
 
 
 int main (int argc, char *argv[]){
+
 //generatore numeri casuali
 	Random rnd;
 	int seed[4];
@@ -47,70 +50,107 @@ int main (int argc, char *argv[]){
         input.close();
         } else cerr << "PROBLEM: Unable to open seed.in" << endl;
 
-//Simuliamo i numeri casuali
+//Simulazione dei Numeri Casuali
+
 	int M = 10000;		//Total number of throws
 	int N = 100;		//Total number of blocks
-	double L = M/N;	//Number of throws in  each block
-
-	double rand[M];		//Vettore che conterra i numeri casuali
-	for ( int i=0; i<M; i++){ //creazione dei numeri casuali
-	rand[i] = rnd.Rannyu();
-	}
+	int L = M/N;		//Number of throws in  each block
+	vector<double> Nf;
 	
-	//rnd.SaveSeed();		//salva in output il seme a cui siamo arrivati!
-//calcoliamo i valori medi dei vari blocchi e li mandiamo su un file
-	vector<double> ave;		//vettore che contiene la media di ogni blocco
-	vector<double> ave2;
+///////// 1.1 Calcolo del Valore medio in ciascun Blocco
+	double summ_block;
+	double summ = 0;
+	double summ2 = 0;
+	double dev = 0;
+	double ave;
 
-	int cont=0;		//segnatura della posizione nell'array
-	for( int i=0;i<N;i++){	// i = indicatore del blocco n-esimo in cui ci troviamo
-		double sum=0;	//contatore della somma per ciascun blocco
-		for(int j=0;j<L;j++){
-			cont= j+ i*L;
-			sum = sum + rand[cont]; 
+	vector<double> ave_v;		//media per passo i-esimo, presi in considerazione i blocchi precedenti
+	vector<double> err;
+
+///////// 1.2 Valore medio della deviazione standard
+	vector<double> ave_dev_v;
+	vector<double> err_dev;
+	double summ_dev_block;
+	double summ_dev = 0;
+	double summ2_dev = 0;
+	double dev_dev = 0;
+	double ave_dev;
+
+	double r;
+	for( int i = 1; i < N +1; i++){
+		summ_block = 0;
+		summ_dev_block = 0;
+;
+		for(int j = 0; j < M; j++){
+			r = rnd.Rannyu();
+		} 
+
+		for(int j = 1; j < L +1 ; j++){
+			r = rnd.Rannyu();
+			summ_block = summ_block + r;
+			summ_dev_block = summ_dev_block + pow(rnd.Rannyu()-0.5,2);
 		}
-		ave.push_back(sum/L);
-		ave2.push_back( pow(sum/L,2));
+		ave = summ_block/double(L);
+		ave_dev = summ_dev_block/double(L);
+
+		summ = summ + ave;
+		summ2 = summ2 + pow(ave,2);
+		summ_dev = summ_dev + ave_dev;
+		summ2_dev = summ2_dev + pow(ave_dev,2);
+
+		ave_v.push_back(summ/double(i));
+		dev = sqrt((summ2/double(i))-pow(summ/double(i),2));
+		ave_dev_v.push_back(summ_dev/double(i));
+		dev_dev = sqrt((summ2_dev/double(i))-pow(summ_dev/double(i),2));
+		//calcolo Incertezza statistica
+		if(i == 1){
+			err.push_back(0);
+			err_dev.push_back(0);
+		}
+		else{
+			err.push_back(dev/sqrt(i-1));
+			err_dev.push_back(dev/sqrt(i-1));
+		}
+		Nf.push_back(i);
 	}
-	//Print<double>("medie.dat",ave);
 
-//calcolo la deviazione standard dei valori sul vector ave
-	vector<double> dev;		// deviazione standard
-	vector<double> dev2;
-	vector<double> err; 		//incertezza statistica sulla media
-cd 		double sum_dev2 = 0;
-		for(int j = 0; j<i +1;j++){
-			sum = sum + ave[j];
-			sum2 = sum +  ave2[j];
-			//cout<<"    j: "<<j<<"  "<<sum<<"  "<<sum2<<endl;
+///////// 1.3 Test del chi^2
+
+	vector<double> chi2;
+	vector<double> null;
+	double chi = 0;
+	M = pow(10,4);
+	N = 100;
+	double intervallo = 1.0/double(N);
+
+	for(int i = 0; i < N;i++){
+		chi = 0;
+	    vector<double> occupazione;
+		//Ciclo sui lanci in ogni intervallo
+		for(int j = 0; j < M;j++){
+			r = rnd.Rannyu();
+			for( int k = 0; k< N;k++){              //Ciclo su tutti gli N blocchi
+				occupazione.push_back(0);
+				if(r <= 1.0/double(N*(k+1)) && r > 1.0/double(M*1) ){
+					 occupazione[k] = occupazione[k] + 1;
+				}
+			}
 		}
-		sum = pow(sum/i+1,2);
-		//cout<<sum<<endl;
-		sum2 = sum2/i+1;
-		//cout<<sum2<<endl;
-		dev.push_back(sqrt(abs(sum2-sum))) ;
-		//cout<<"dev:  "<<dev[i-1]<<endl;
-		sum_dev = sum_dev + dev[i];
-		
-		dev2.push_back(abs(sum2-sum));
-		
-		err.push_back(dev[i-1]/sqrt(i));
-		err_dev.push_back()
+		for( int j = 0; j < N; j++){
+		    chi += (pow((occupazione[j] - double(M)/double(N)),2))/(double(M)/double(N));
 		}
-// stampo l'errore statistico e la media su un file
-	vector<double> Num;
-	for(int i = 1; i < N+1;i++){
-		Num.push_back(L*i);
+		chi2.push_back(chi);
+	    null.push_back(0);
 	}
-	Print<double>("Medie.dat",Num,ave,err);
+
+	//Stampo i risultati su file output
+	Print<double>("Ave.dat",Nf,ave_v,err);
+	Print<double>("Dev.dat",Nf,ave_dev_v,err_dev);
+	Print<double>("Chi.dat",Nf,chi2,null);
+	
 
 
-	//for(int i=0; i<20; i++){
-      	//cout << rnd.Rannyu() << endl;
-   //}
-
-   //rnd.SaveSeed();		//salva in output il seme a cui siamo arrivati!!
-   return 0;
+    return 0;
 }
 
 template <typename T> void Print(const char * Filename,vector<T> data,vector<T> data2,vector<T> data3 ){
