@@ -1,4 +1,4 @@
-# Laboratorio 2
+# Laboratorio 3
 
 Per **compilare** il programma, entrare nella cartella di interesse e digitare sul terminale:
 ```bash
