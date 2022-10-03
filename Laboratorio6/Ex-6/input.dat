@@ -1,0 +1,18 @@
+0
+0.50
+50
+1.0
+0.02
+1
+20
+100000
+
+  ReadInput >> restart;   // 1 = re-start--> deve sempre essere fissata a  0 questo valore per far si che funzioni il programma
+  ReadInput >> temp;
+  ReadInput >> nspin;
+  ReadInput >> J;
+  ReadInput >> h;
+  ReadInput >> metro;     // 1  = METROPOLI, altrimenti GIBBS
+  ReadInput >> nblk;
+  ReadInput >> nstep;
+
