@@ -1,4 +1,4 @@
-# Laboratorio 4
+# Laboratorio 6
 
 La scelta del **sampling** del sistema avviene all'interno di `temp.sh`
 
