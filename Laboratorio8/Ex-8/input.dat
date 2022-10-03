@@ -1,0 +1,49 @@
+0
+0
+
+50
+100
+50
+
+1
+1
+
+0
+0
+3
+
+0.001
+
+1
+0.5
+1
+1
+
+
+  ReadInput >> SA;          // 0= no simulated annealing (8.1); 1 = simulated annealing (8.2)
+  ReadInput >> restart;     // restart = 1 --> reincomincia dai valori della simulazione precedente
+//SIMULAZIONE
+  ReadInput >> nblk;        //numero di blocchi per data-blocking
+  ReadInput >> nstep;      //numero di step  per data-blocking
+  ReadInput >> stepSA;     //numero di step del simulated annealing, per un dato beta
+
+// TEMPERATURA del singolo montecarlo
+  ReadInput >> db;         //step di incremento della beta durante il simulated annealing
+  ReadInput >> temp_o;    //temperatura iniziale del simulated annealing
+
+// DEFINIZIONE EQUAZIONE DI SCHRODIGER
+  ReadInput >> x_i;       //posizione da cui parte la simulazione
+  ReadInput >> x0;        //punto di inizio della funzione di shrodinger (costruita come un vettore)
+  ReadInput >> xf;        //punto finale della funzione di shrodinger
+
+  ReadInput >>deltaH;     //valore sotto al quale la simulazione si stoppa
+
+//valori inziali assegnati ai parametri mu e sigma
+  ReadInput >> mu;
+  ReadInput >> sigma;
+  ReadInput >> span_mu;    //larghezza passi mu
+  ReadInput >> span_sigma;    //larghezza passi sigma
+  
+
+
+
