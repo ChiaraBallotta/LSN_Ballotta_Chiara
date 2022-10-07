@@ -23,6 +23,7 @@ _/    _/  _/_/_/  _/_/_/_/ email: Davide.Galli@unimi.it
 
 using namespace std;
 
+double Error(double , double , int );
 
 int main (int argc, char *argv[]){
 //generatore numeri casuali
@@ -90,7 +91,7 @@ int main (int argc, char *argv[]){
 	Continuo.open("RW_Continuo.dat");
 // Calcolo della Medie nei blocchi
 
-	for(int i = 0; i < n; i++){
+	for(int i = 0; i < n; i++){	      //fissato lo step i-esimi
 		for(int j = 0 ; j < N; j++){
 			double mean = Rm2_summ[i][j];
 			double mean_C = Rm2_summ_C[i][j];
@@ -100,9 +101,7 @@ int main (int argc, char *argv[]){
 			ave_C[i] += mean_C/double(N);
 			ave2_C[i] += mean_C*mean_C/double(N);
 		}
-	
-		dev = sqrt((ave2[i])- pow(ave[i],2));
-		dev_C = sqrt((ave2_C[i])- pow(ave_C[i],2));
+
 		double err = 0;
 		double err_C = 0;
 		if(i == 0){	
@@ -110,9 +109,10 @@ int main (int argc, char *argv[]){
 			Continuo<<sqrt(ave_C[i])<<"  "<<0<<endl;
 		}
 		else{
-			err = dev/sqrt(N-1);
+
+			err = Error(ave[i],ave2[i],N) /(2*sqrt(ave[i]));	//error propagation err(sqrt(x))=0.5/sqrt(x)
 			Discreto<<sqrt(ave[i])<<"  "<<err<<endl;
-			err_C = dev_C/sqrt(N-1);
+			err_C = Error(ave[i],ave2[i],N)/(2*sqrt(ave[i]));
 			Continuo<<sqrt(ave_C[i])<<"  "<<err_C<<endl;
 		}
 	}
@@ -123,7 +123,10 @@ int main (int argc, char *argv[]){
 }
 
 
-
+double Error(double sum, double sum2, int iblk)
+{
+    return sqrt(fabs(sum2/(double)iblk - pow(sum/(double)iblk,2))/(double)iblk);
+}
 
 
 
