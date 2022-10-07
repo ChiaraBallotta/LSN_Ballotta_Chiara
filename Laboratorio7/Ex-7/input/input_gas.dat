@@ -1,0 +1,23 @@
+0
+0
+1
+1
+1.01
+108
+0.05
+5.0
+0.0005
+50
+2500
+
+  ReadInput >> iNVET; 0=MD(NVE) 1=MC(NVT)
+  ReadInput >> restart;
+  ReadInput >> ottimizzazione_inclusa; 1 --> si; 0 --> no
+  ReadInput >> graf_lim;      1--> salva solo i dati di U/N e P; 0--> salva i dati di tutti
+  ReadInput >> temp;
+  ReadInput >> npart;
+  ReadInput >> rho;
+  ReadInput >> rcut;
+  ReadInput >> delta;
+  ReadInput >> nblk;
+  ReadInput >> nstep;
