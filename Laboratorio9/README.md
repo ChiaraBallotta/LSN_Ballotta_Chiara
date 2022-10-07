@@ -14,4 +14,4 @@ Per **cancellare** i file .exe presenti nella cartella scelta, digitare sul term
 ```bash
 make clean
 ```
-La lista completa di comandi **make** utilizzabili è presente nel `Makefile`
+La lista completa di comandi **make** utilizzabili è presente nel `Makefile`.
